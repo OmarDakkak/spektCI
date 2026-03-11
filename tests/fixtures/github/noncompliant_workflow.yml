@@ -1,0 +1,22 @@
+name: Non-compliant Deploy
+on: push
+
+permissions: write-all
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container:
+      image: random/tool:latest
+    services:
+      redis:
+        image: redis:dev
+    steps:
+      - uses: actions/checkout@main
+      - name: Deploy
+        run: |
+          curl -H "Authorization: Bearer ghp_abcdefghijklmnopqrstuvwxyz1234567890" \
+            https://api.example.com/deploy
+        env:
+          SECRET_KEY: "mysupersecretpassword123"
+          DB_PASSWORD: "hunter2isnotapassword"

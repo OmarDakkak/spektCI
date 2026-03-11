@@ -1,0 +1,1 @@
+"""CircleCI platform adapter (stub)."""

@@ -1,0 +1,1 @@
+"""Bitbucket API client (stub)."""

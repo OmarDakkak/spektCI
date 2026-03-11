@@ -1,0 +1,60 @@
+# spektci configuration — self-dogfooding
+version: "1"
+
+global:
+  threshold: 80
+  fail_on: "error"
+  output_format: "terminal"
+  output_file: null
+
+platform:
+  type: auto
+  api_url: null
+  project: null
+  branch: null
+
+controls:
+  image_tags:
+    enabled: true
+    forbidden_tags: [latest, dev, main, master, staging]
+
+  image_sources:
+    enabled: true
+    trust_docker_official: true
+    trusted_registries: []
+
+  branch_protection:
+    enabled: true
+    branches: [main, master, release/*, production]
+    require_pr_review: true
+    min_approvals: 1
+    require_status_checks: true
+    block_force_push: true
+
+  hardcoded_secrets:
+    enabled: true
+    patterns: []
+    exclude_paths:
+      - "**/*.example.yml"
+      - "tests/fixtures/**"
+
+  pinned_actions:
+    enabled: true
+    require_sha_pinning: false
+    forbidden_refs: [main, master, HEAD, latest]
+
+  required_stages:
+    enabled: true
+    require_all: [sast, secret_scanning]
+    require_any: []
+
+  permissions:
+    enabled: true
+    max_github_permissions: "read"
+    flag_privileged_containers: true
+    flag_unrestricted_network: true
+
+  outdated_deps:
+    enabled: true
+    max_major_behind: 1
+    max_minor_behind: 3
