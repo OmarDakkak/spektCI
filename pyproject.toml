@@ -7,7 +7,7 @@ name = "spektci"
 version = "0.1.0"
 description = "Multi-platform CI/CD compliance scanner for GitHub Actions, Jenkins, Bitbucket, Azure DevOps & CircleCI"
 readme = "README.md"
-license = { text = "MPL-2.0" }
+license = { text = "MIT" }
 requires-python = ">=3.11"
 authors = [{ name = "spektci contributors" }]
 keywords = ["ci", "cd", "compliance", "security", "scanner", "github-actions", "jenkins", "devops"]
@@ -15,7 +15,7 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",

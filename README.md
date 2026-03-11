@@ -5,18 +5,18 @@
 <h3 align="center">CI/CD compliance scanner for GitHub Actions, Jenkins, Bitbucket, Azure DevOps & CircleCI</h3>
 
 <p align="center">
-  <a href="#"><img src="https://img.shields.io/badge/python-3.11+-3776AB?logo=python&logoColor=white" alt="Python 3.11+"></a>
-  <a href="#"><img src="https://img.shields.io/badge/license-MPL--2.0-blue" alt="License"></a>
-  <a href="#"><img src="https://img.shields.io/badge/platforms-5-brightgreen" alt="Platforms"></a>
-  <a href="#"><img src="https://img.shields.io/badge/status-alpha-orange" alt="Status"></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.11+-3776AB?logo=python&logoColor=white" alt="Python 3.11+"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
+  <a href="docs/adapters.md"><img src="https://img.shields.io/badge/platforms-5-brightgreen" alt="Platforms"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/status-alpha-orange" alt="Status"></a>
 </p>
 
 <p align="center">
   <a href="#-quickstart">Quickstart</a> •
-  <a href="#-compliance-controls">Controls</a> •
+  <a href="docs/controls.md">Controls</a> •
   <a href="#%EF%B8%8F-configuration">Configuration</a> •
   <a href="#-cli-reference">CLI Reference</a> •
-  <a href="#-contributing">Contributing</a>
+  <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
 ---
@@ -54,4 +54,4 @@ See the full [CLI Reference](#-cli-reference) for all options.
 
 ## 📄 License
 
-MPL-2.0
+[MIT](LICENSE)
