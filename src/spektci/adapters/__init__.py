@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
-from spektci.adapters.base import BasePlatformAdapter
+from typing import TYPE_CHECKING
+
 from spektci.adapters.detector import detect_platform
-from spektci.config.schema import SpektciConfig
+
+if TYPE_CHECKING:
+    from spektci.adapters.base import BasePlatformAdapter
+    from spektci.config.schema import SpektciConfig
 
 
 def get_adapter(config: SpektciConfig) -> BasePlatformAdapter:
@@ -19,7 +23,7 @@ def get_adapter(config: SpektciConfig) -> BasePlatformAdapter:
     Raises:
         ValueError: If the platform cannot be detected or is not supported.
     """
-    platform_type = config.platform.type
+    platform_type: str = config.platform.type
 
     if platform_type == "auto":
         platform_type = detect_platform()

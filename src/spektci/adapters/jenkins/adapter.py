@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from spektci.adapters.base import BasePlatformAdapter, RawPipelineData
-from spektci.config.schema import SpektciConfig
 from spektci.core.models import BranchProtection, PipelineModel, PlatformType
+
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
 
 
 class JenkinsAdapter(BasePlatformAdapter):

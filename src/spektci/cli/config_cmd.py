@@ -59,10 +59,9 @@ def view(config_path: str | None, no_color: bool) -> None:
         sys.exit(2)
 
     # Render as YAML-like display
+    import yaml
     from rich.console import Console
     from rich.syntax import Syntax
-
-    import yaml
 
     data = cfg.model_dump(by_alias=True)
     yaml_str = yaml.dump(data, default_flow_style=False, sort_keys=False)

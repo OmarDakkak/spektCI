@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import json
+from typing import TYPE_CHECKING
 
 from spektci import __version__
-from spektci.config.schema import SpektciConfig
 from spektci.core.result import AnalysisResult, Severity
 from spektci.reporters.base import BaseReporter
+
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
 
 SARIF_SEVERITY_MAP = {
     Severity.ERROR: "error",
@@ -28,12 +31,14 @@ class SarifReporter(BaseReporter):
         for cr in result.control_results:
             # Add rule definition if not seen
             if cr.control_id not in rule_ids_seen:
-                rules.append({
-                    "id": cr.control_id,
-                    "name": cr.control_name.replace(" ", ""),
-                    "shortDescription": {"text": cr.control_name},
-                    "defaultConfiguration": {"level": "error"},
-                })
+                rules.append(
+                    {
+                        "id": cr.control_id,
+                        "name": cr.control_name.replace(" ", ""),
+                        "shortDescription": {"text": cr.control_name},
+                        "defaultConfiguration": {"level": "error"},
+                    }
+                )
                 rule_ids_seen.add(cr.control_id)
 
             # Add findings as results

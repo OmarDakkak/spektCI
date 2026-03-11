@@ -3,15 +3,17 @@
 from __future__ import annotations
 
 from io import StringIO
+from typing import TYPE_CHECKING
 
 from rich.console import Console
-from rich.table import Table
 from rich.text import Text
 
 from spektci import __version__
-from spektci.config.schema import SpektciConfig
 from spektci.core.result import AnalysisResult, ControlStatus
 from spektci.reporters.base import BaseReporter
+
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
 
 STATUS_ICONS = {
     ControlStatus.PASS: ("✓", "green"),
@@ -31,16 +33,10 @@ class TerminalReporter(BaseReporter):
 
         # Header
         console.print()
-        console.print(
-            f" [bold cyan]spektci[/bold cyan] v{__version__} — "
-            f"CI/CD Compliance Scanner"
-        )
+        console.print(f" [bold cyan]spektci[/bold cyan] v{__version__} — CI/CD Compliance Scanner")
         console.print()
         console.print(f" Platform: [bold]{result.platform.title()}[/bold]")
-        console.print(
-            f" Repo:     [bold]{result.project}[/bold] "
-            f"(branch: {result.branch})"
-        )
+        console.print(f" Repo:     [bold]{result.project}[/bold] (branch: {result.branch})")
         console.print()
 
         # Control results
@@ -86,9 +82,7 @@ class TerminalReporter(BaseReporter):
             f"({passing}/{total} controls passing)    "
             f"Threshold: {threshold}%"
         )
-        console.print(
-            f" Result: [{result_color} bold]{result_label}[/{result_color} bold]"
-        )
+        console.print(f" Result: [{result_color} bold]{result_label}[/{result_color} bold]")
         console.print()
 
         return buf.getvalue()

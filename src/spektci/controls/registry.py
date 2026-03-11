@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from spektci.config.schema import SpektciConfig
-from spektci.controls.base import BaseControl
+from typing import TYPE_CHECKING
+
 from spektci.controls.branch_protection import BranchProtectionControl
 from spektci.controls.hardcoded_secrets import HardcodedSecretsControl
 from spektci.controls.image_sources import ImageSourcesControl
@@ -13,16 +13,20 @@ from spektci.controls.permissions import PermissionsControl
 from spektci.controls.pinned_actions import PinnedActionsControl
 from spektci.controls.required_stages import RequiredStagesControl
 
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
+    from spektci.controls.base import BaseControl
+
 # Ordered list of all available controls
 ALL_CONTROLS: list[type[BaseControl]] = [
-    ImageTagsControl,        # C001
-    ImageSourcesControl,     # C002
-    BranchProtectionControl, # C003
-    HardcodedSecretsControl, # C004
-    PinnedActionsControl,    # C005
-    RequiredStagesControl,   # C006
-    PermissionsControl,      # C007
-    OutdatedDepsControl,     # C008
+    ImageTagsControl,  # C001
+    ImageSourcesControl,  # C002
+    BranchProtectionControl,  # C003
+    HardcodedSecretsControl,  # C004
+    PinnedActionsControl,  # C005
+    RequiredStagesControl,  # C006
+    PermissionsControl,  # C007
+    OutdatedDepsControl,  # C008
 ]
 
 

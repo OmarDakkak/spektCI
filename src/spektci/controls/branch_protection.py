@@ -2,10 +2,14 @@
 
 from __future__ import annotations
 
-from spektci.config.schema import SpektciConfig
+from typing import TYPE_CHECKING
+
 from spektci.controls.base import BaseControl
-from spektci.core.models import PipelineModel
 from spektci.core.result import ControlResult, ControlStatus, Finding, Severity
+
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
+    from spektci.core.models import PipelineModel
 
 
 class BranchProtectionControl(BaseControl):
@@ -32,8 +36,7 @@ class BranchProtectionControl(BaseControl):
                         severity=Severity.ERROR,
                         message=f"Branch '{bp.branch}' is not protected",
                         remediation=(
-                            f"Enable branch protection for '{bp.branch}' in your "
-                            f"platform settings."
+                            f"Enable branch protection for '{bp.branch}' in your platform settings."
                         ),
                     )
                 )
@@ -46,9 +49,7 @@ class BranchProtectionControl(BaseControl):
                         control_id=self.control_id,
                         control_name=self.name,
                         severity=Severity.WARNING,
-                        message=(
-                            f"Branch '{bp.branch}' does not require PR reviews"
-                        ),
+                        message=(f"Branch '{bp.branch}' does not require PR reviews"),
                         remediation="Enable 'Require a pull request before merging'.",
                     )
                 )
@@ -63,9 +64,7 @@ class BranchProtectionControl(BaseControl):
                             f"Branch '{bp.branch}' requires {bp.min_approvals} approvals, "
                             f"but policy requires {cfg.min_approvals}"
                         ),
-                        remediation=(
-                            f"Set minimum approvals to at least {cfg.min_approvals}."
-                        ),
+                        remediation=(f"Set minimum approvals to at least {cfg.min_approvals}."),
                     )
                 )
 
@@ -75,9 +74,7 @@ class BranchProtectionControl(BaseControl):
                         control_id=self.control_id,
                         control_name=self.name,
                         severity=Severity.WARNING,
-                        message=(
-                            f"Branch '{bp.branch}' does not require status checks"
-                        ),
+                        message=(f"Branch '{bp.branch}' does not require status checks"),
                         remediation="Enable 'Require status checks to pass'.",
                     )
                 )
@@ -105,9 +102,7 @@ class BranchProtectionControl(BaseControl):
                         control_id=self.control_id,
                         control_name=self.name,
                         severity=Severity.INFO,
-                        message=(
-                            f"Branch protection for '{branch_name}' could not be verified"
-                        ),
+                        message=(f"Branch protection for '{branch_name}' could not be verified"),
                         remediation="Ensure this branch exists and has protection enabled.",
                     )
                 )

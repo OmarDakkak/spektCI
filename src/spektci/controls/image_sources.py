@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import fnmatch
+from typing import TYPE_CHECKING
 
-from spektci.config.schema import SpektciConfig
 from spektci.controls.base import BaseControl
-from spektci.core.models import PipelineModel
 from spektci.core.result import ControlResult, ControlStatus, Finding, Severity
+
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
+    from spektci.core.models import PipelineModel
 
 
 class ImageSourcesControl(BaseControl):
@@ -27,8 +30,12 @@ class ImageSourcesControl(BaseControl):
         findings: list[Finding] = []
 
         for image in pipeline.images:
-            if self._is_trusted(image.registry, image.is_docker_official, cfg.trust_docker_official,
-                                trusted_patterns):
+            if self._is_trusted(
+                image.registry,
+                image.is_docker_official,
+                cfg.trust_docker_official,
+                trusted_patterns,
+            ):
                 continue
 
             findings.append(
@@ -72,9 +79,7 @@ class ImageSourcesControl(BaseControl):
             return trust_official
 
         for pattern in trusted_patterns:
-            if fnmatch.fnmatch(registry, pattern) or fnmatch.fnmatch(
-                f"{registry}/", pattern
-            ):
+            if fnmatch.fnmatch(registry, pattern) or fnmatch.fnmatch(f"{registry}/", pattern):
                 return True
 
         return False

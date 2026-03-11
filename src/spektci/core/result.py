@@ -131,7 +131,7 @@ class AnalysisResult:
 
     @property
     def compliance_score(self) -> float:
-        """Compliance percentage (0–100). Returns 100.0 if no controls were evaluated."""
+        """Compliance percentage (0-100). Returns 100.0 if no controls were evaluated."""
         total = self.total_controls
         if total == 0:
             return 100.0

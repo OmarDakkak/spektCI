@@ -6,7 +6,6 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-
 # ── Control-specific config models ───────────────────────────────
 
 
@@ -53,9 +52,7 @@ class PinnedActionsConfig(BaseModel):
 
     enabled: bool = True
     require_sha_pinning: bool = False
-    forbidden_refs: list[str] = Field(
-        default_factory=lambda: ["main", "master", "HEAD", "latest"]
-    )
+    forbidden_refs: list[str] = Field(default_factory=lambda: ["main", "master", "HEAD", "latest"])
 
 
 class RequiredStagesConfig(BaseModel):

@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING
 
-from spektci.config.schema import SpektciConfig
-from spektci.core.models import PipelineModel
-from spektci.core.result import ControlResult
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
+    from spektci.core.models import PipelineModel
+    from spektci.core.result import ControlResult
 
 
 class BaseControl(ABC):

@@ -2,31 +2,64 @@
 
 from __future__ import annotations
 
-from spektci.config.schema import SpektciConfig
+from typing import TYPE_CHECKING
+
 from spektci.controls.base import BaseControl
-from spektci.core.models import PipelineModel
 from spektci.core.result import ControlResult, ControlStatus, Finding, Severity
+
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
+    from spektci.core.models import PipelineModel
 
 # Keywords that indicate a stage/step is performing a certain security scan
 STAGE_KEYWORDS: dict[str, list[str]] = {
     "sast": [
-        "sast", "static-analysis", "static_analysis", "semgrep", "sonar",
-        "codeql", "checkmarx", "fortify", "snyk-code", "bandit",
+        "sast",
+        "static-analysis",
+        "static_analysis",
+        "semgrep",
+        "sonar",
+        "codeql",
+        "checkmarx",
+        "fortify",
+        "snyk-code",
+        "bandit",
     ],
     "sca": [
-        "sca", "dependency-check", "dependency_check", "dependabot",
-        "snyk", "renovate", "npm-audit", "pip-audit", "safety",
+        "sca",
+        "dependency-check",
+        "dependency_check",
+        "dependabot",
+        "snyk",
+        "renovate",
+        "npm-audit",
+        "pip-audit",
+        "safety",
     ],
     "secret_scanning": [
-        "secret", "gitleaks", "trufflehog", "detect-secrets", "talisman",
+        "secret",
+        "gitleaks",
+        "trufflehog",
+        "detect-secrets",
+        "talisman",
         "git-secrets",
     ],
     "container_scanning": [
-        "container-scan", "container_scan", "trivy", "grype", "anchore",
-        "aqua", "twistlock", "prisma-cloud",
+        "container-scan",
+        "container_scan",
+        "trivy",
+        "grype",
+        "anchore",
+        "aqua",
+        "twistlock",
+        "prisma-cloud",
     ],
     "dast": [
-        "dast", "dynamic-analysis", "dynamic_analysis", "zap", "burp",
+        "dast",
+        "dynamic-analysis",
+        "dynamic_analysis",
+        "zap",
+        "burp",
     ],
 }
 
@@ -66,21 +99,16 @@ class RequiredStagesControl(BaseControl):
                 )
 
         # Check require_any — at least one of the listed types must be present
-        if cfg.require_any:
-            if not any(rt in detected_types for rt in cfg.require_any):
-                findings.append(
-                    Finding(
-                        control_id=self.control_id,
-                        control_name=self.name,
-                        severity=Severity.WARNING,
-                        message=(
-                            f"Missing at least one of: {', '.join(cfg.require_any)}"
-                        ),
-                        remediation=(
-                            f"Add at least one of {cfg.require_any} stages to your pipeline."
-                        ),
-                    )
+        if cfg.require_any and not any(rt in detected_types for rt in cfg.require_any):
+            findings.append(
+                Finding(
+                    control_id=self.control_id,
+                    control_name=self.name,
+                    severity=Severity.WARNING,
+                    message=(f"Missing at least one of: {', '.join(cfg.require_any)}"),
+                    remediation=(f"Add at least one of {cfg.require_any} stages to your pipeline."),
                 )
+            )
 
         return ControlResult(
             control_id=self.control_id,

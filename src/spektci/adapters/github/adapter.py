@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 import logging
+from typing import TYPE_CHECKING
 
 from spektci.adapters.base import BasePlatformAdapter, RawPipelineData
 from spektci.adapters.detector import get_repo_from_remote
 from spektci.adapters.github.collector import GitHubCollector
 from spektci.adapters.github.parser import GitHubParser
-from spektci.config.schema import SpektciConfig
-from spektci.core.models import BranchProtection, PipelineModel
+
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
+    from spektci.core.models import BranchProtection, PipelineModel
 
 logger = logging.getLogger(__name__)
 
@@ -30,10 +33,7 @@ class GitHubAdapter(BasePlatformAdapter):
         """Fetch workflow files and repo settings from GitHub API."""
         repo = config.platform.project or get_repo_from_remote()
         if not repo:
-            raise ValueError(
-                "Could not determine repository. "
-                "Use --repo owner/repo to specify it."
-            )
+            raise ValueError("Could not determine repository. Use --repo owner/repo to specify it.")
 
         logger.info("Collecting GitHub Actions data for %s", repo)
         return self.collector.collect(repo)

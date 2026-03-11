@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 
-from spektci.config.schema import SpektciConfig
 from spektci.controls.base import BaseControl
-from spektci.core.models import PipelineModel
 from spektci.core.result import ControlResult, ControlStatus, Finding, Severity
+
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
+    from spektci.core.models import PipelineModel
 
 SEMVER_PATTERN = re.compile(r"^v?(\d+)(?:\.(\d+))?(?:\.(\d+))?$")
 

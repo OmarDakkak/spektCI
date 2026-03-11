@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import json
+from typing import TYPE_CHECKING
 
-from spektci.config.schema import SpektciConfig
-from spektci.core.result import AnalysisResult
 from spektci.reporters.base import BaseReporter
+
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
+    from spektci.core.result import AnalysisResult
 
 
 class JsonReporter(BaseReporter):

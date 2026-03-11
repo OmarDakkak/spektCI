@@ -2,10 +2,14 @@
 
 from __future__ import annotations
 
-from spektci.config.schema import SpektciConfig
+from typing import TYPE_CHECKING
+
 from spektci.controls.base import BaseControl
-from spektci.core.models import PipelineModel
 from spektci.core.result import ControlResult, ControlStatus, Finding, Severity
+
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
+    from spektci.core.models import PipelineModel
 
 # Permission levels ordered from least to most permissive
 PERMISSION_LEVELS = {"none": 0, "read": 1, "write": 2, "admin": 3}

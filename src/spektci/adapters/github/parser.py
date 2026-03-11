@@ -4,11 +4,10 @@ from __future__ import annotations
 
 import logging
 import re
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import yaml
 
-from spektci.adapters.base import RawPipelineData
 from spektci.core.models import (
     ActionReference,
     ContainerImage,
@@ -19,10 +18,15 @@ from spektci.core.models import (
     PlatformType,
 )
 
+if TYPE_CHECKING:
+    from spektci.adapters.base import RawPipelineData
+
 logger = logging.getLogger(__name__)
 
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
-IMAGE_TAG_RE = re.compile(r"^(?:(?P<registry>[^/]+\.[^/]+)/)?(?P<repo>.+?)(?::(?P<tag>[^@]+))?(?:@(?P<digest>sha256:[a-f0-9]+))?$")
+IMAGE_TAG_RE = re.compile(
+    r"^(?:(?P<registry>[^/]+\.[^/]+)/)?(?P<repo>.+?)(?::(?P<tag>[^@]+))?(?:@(?P<digest>sha256:[a-f0-9]+))?$"
+)
 
 
 class GitHubParser:
@@ -95,9 +99,7 @@ class GitHubParser:
             raw_content=dict(raw.config_files),
         )
 
-    def _parse_job(
-        self, job_name: str, job_data: dict[str, Any], filename: str
-    ) -> PipelineStage:
+    def _parse_job(self, job_name: str, job_data: dict[str, Any], filename: str) -> PipelineStage:
         """Parse a single job into a PipelineStage."""
         steps: list[PipelineStep] = []
         images: list[ContainerImage] = []
@@ -149,9 +151,9 @@ class GitHubParser:
             name=job_name,
             steps=steps,
             images=images,
-            environment={
-                str(k): str(v) for k, v in job_data.get("env", {}).items()
-            } if isinstance(job_data.get("env"), dict) else {},
+            environment={str(k): str(v) for k, v in job_data.get("env", {}).items()}
+            if isinstance(job_data.get("env"), dict)
+            else {},
         )
 
     @staticmethod
@@ -194,9 +196,7 @@ class GitHubParser:
             source_file=filename,
         )
 
-    def _parse_container_image(
-        self, container: Any, filename: str
-    ) -> ContainerImage | None:
+    def _parse_container_image(self, container: Any, filename: str) -> ContainerImage | None:
         """Parse a job-level container spec."""
         if isinstance(container, str):
             return self._parse_image_ref(container, filename)
@@ -220,9 +220,7 @@ class GitHubParser:
         digest = match.group("digest")
 
         # Detect Docker official images
-        is_official = (
-            registry is None or registry == "docker.io"
-        ) and "/" not in repository
+        is_official = (registry is None or registry == "docker.io") and "/" not in repository
 
         # Default tag
         if not tag and not digest:
@@ -244,7 +242,5 @@ class GitHubParser:
         if isinstance(perms, str):
             return PipelinePermissions(top_level=perms)
         elif isinstance(perms, dict):
-            return PipelinePermissions(
-                top_level={str(k): str(v) for k, v in perms.items()}
-            )
+            return PipelinePermissions(top_level={str(k): str(v) for k, v in perms.items()})
         return PipelinePermissions()

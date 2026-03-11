@@ -5,12 +5,15 @@ from __future__ import annotations
 import logging
 import os
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import httpx
 
 from spektci.adapters.base import RawPipelineData
-from spektci.config.schema import SpektciConfig
 from spektci.core.models import BranchProtection
+
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
 
 logger = logging.getLogger(__name__)
 
@@ -93,13 +96,14 @@ class GitHubCollector:
                 branch=branch,
                 is_protected=True,
                 require_pr_review=pr_reviews is not None and bool(pr_reviews),
-                min_approvals=pr_reviews.get(
-                    "required_approving_review_count", 0
-                ) if pr_reviews else 0,
+                min_approvals=pr_reviews.get("required_approving_review_count", 0)
+                if pr_reviews
+                else 0,
                 require_status_checks=status_checks is not None and bool(status_checks),
                 required_checks=(
                     [c.get("context", "") for c in status_checks.get("checks", [])]
-                    if status_checks else []
+                    if status_checks
+                    else []
                 ),
                 block_force_push=data.get("allow_force_pushes", {}).get("enabled") is False,
                 block_deletions=data.get("allow_deletions", {}).get("enabled") is False,
@@ -142,9 +146,7 @@ class GitHubCollector:
 
         try:
             # List files in .github/workflows/
-            resp = self.client.get(
-                f"/repos/{repo}/contents/{WORKFLOW_DIR}"
-            )
+            resp = self.client.get(f"/repos/{repo}/contents/{WORKFLOW_DIR}")
             resp.raise_for_status()
             files = resp.json()
 

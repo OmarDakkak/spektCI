@@ -2,10 +2,14 @@
 
 from __future__ import annotations
 
-from spektci.config.schema import SpektciConfig
+from typing import TYPE_CHECKING
+
 from spektci.controls.base import BaseControl
-from spektci.core.models import PipelineModel
 from spektci.core.result import ControlResult, ControlStatus, Finding, Severity
+
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
+    from spektci.core.models import PipelineModel
 
 
 class ImageTagsControl(BaseControl):
@@ -31,9 +35,7 @@ class ImageTagsControl(BaseControl):
                         control_id=self.control_id,
                         control_name=self.name,
                         severity=Severity.ERROR,
-                        message=(
-                            f"Image '{image.full_ref}' uses forbidden tag '{image.tag}'"
-                        ),
+                        message=(f"Image '{image.full_ref}' uses forbidden tag '{image.tag}'"),
                         source_file=image.source_file,
                         source_line=image.source_line,
                         remediation=(

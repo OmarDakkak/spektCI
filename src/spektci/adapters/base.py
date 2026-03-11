@@ -4,10 +4,11 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from spektci.config.schema import SpektciConfig
-from spektci.core.models import BranchProtection, PipelineModel
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
+    from spektci.core.models import BranchProtection, PipelineModel
 
 
 @dataclass

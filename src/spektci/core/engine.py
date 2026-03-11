@@ -61,8 +61,8 @@ class AnalysisEngine:
         for control in self.controls:
             logger.info("Evaluating control: %s (%s)", control.control_id, control.name)
             try:
-                result = control.evaluate(pipeline, self.config)
-                control_results.append(result)
+                cr = control.evaluate(pipeline, self.config)
+                control_results.append(cr)
             except Exception as exc:
                 logger.error("Control %s raised an error: %s", control.control_id, exc)
                 control_results.append(
@@ -75,7 +75,7 @@ class AnalysisEngine:
                 )
 
         # Step 4: Aggregate
-        result = AnalysisResult(
+        analysis_result = AnalysisResult(
             platform=pipeline.platform.value,
             project=pipeline.project,
             branch=pipeline.branch,
@@ -84,8 +84,8 @@ class AnalysisEngine:
 
         logger.info(
             "Analysis complete: %.1f%% compliance (%d/%d controls passing)",
-            result.compliance_score,
-            result.passed_controls,
-            result.total_controls,
+            analysis_result.compliance_score,
+            analysis_result.passed_controls,
+            analysis_result.total_controls,
         )
-        return result
+        return analysis_result

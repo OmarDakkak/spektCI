@@ -2,10 +2,14 @@
 
 from __future__ import annotations
 
-from spektci.reporters.base import BaseReporter
+from typing import TYPE_CHECKING
+
 from spektci.reporters.json_reporter import JsonReporter
 from spektci.reporters.sarif import SarifReporter
 from spektci.reporters.terminal import TerminalReporter
+
+if TYPE_CHECKING:
+    from spektci.reporters.base import BaseReporter
 
 
 def get_reporter(format_name: str) -> BaseReporter:
@@ -29,7 +33,6 @@ def get_reporter(format_name: str) -> BaseReporter:
     cls = reporters.get(format_name)
     if cls is None:
         raise ValueError(
-            f"Unknown output format: {format_name!r}. "
-            f"Supported formats: {', '.join(reporters)}"
+            f"Unknown output format: {format_name!r}. Supported formats: {', '.join(reporters)}"
         )
     return cls()

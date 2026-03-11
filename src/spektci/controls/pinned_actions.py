@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 
-from spektci.config.schema import SpektciConfig
 from spektci.controls.base import BaseControl
-from spektci.core.models import PipelineModel
 from spektci.core.result import ControlResult, ControlStatus, Finding, Severity
+
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
+    from spektci.core.models import PipelineModel
 
 SHA_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 
@@ -39,14 +42,12 @@ class PinnedActionsControl(BaseControl):
                         control_name=self.name,
                         severity=Severity.ERROR,
                         message=(
-                            f"Action '{action.full_ref}' uses forbidden mutable ref "
-                            f"'{version}'"
+                            f"Action '{action.full_ref}' uses forbidden mutable ref '{version}'"
                         ),
                         source_file=action.source_file,
                         source_line=action.source_line,
                         remediation=(
-                            f"Pin '{action.full_ref}' to a specific version tag "
-                            f"or commit SHA."
+                            f"Pin '{action.full_ref}' to a specific version tag or commit SHA."
                         ),
                     )
                 )
@@ -59,9 +60,7 @@ class PinnedActionsControl(BaseControl):
                         control_id=self.control_id,
                         control_name=self.name,
                         severity=Severity.WARNING,
-                        message=(
-                            f"Action '{action.full_ref}' is not pinned to a commit SHA"
-                        ),
+                        message=(f"Action '{action.full_ref}' is not pinned to a commit SHA"),
                         source_file=action.source_file,
                         source_line=action.source_line,
                         remediation=(
@@ -78,9 +77,7 @@ class PinnedActionsControl(BaseControl):
                         control_id=self.control_id,
                         control_name=self.name,
                         severity=Severity.WARNING,
-                        message=(
-                            f"Action '{action.full_ref}' has no version specified"
-                        ),
+                        message=(f"Action '{action.full_ref}' has no version specified"),
                         source_file=action.source_file,
                         source_line=action.source_line,
                         remediation="Always specify a version for external actions.",

@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING
 
-from spektci.config.schema import SpektciConfig
-from spektci.core.result import AnalysisResult
+if TYPE_CHECKING:
+    from spektci.config.schema import SpektciConfig
+    from spektci.core.result import AnalysisResult
 
 
 class BaseReporter(ABC):
