@@ -38,13 +38,11 @@
 ## 🚀 Quickstart
 
 ```bash
-# Install from GitHub
-pip install git+https://github.com/OmarDakkak/spektCI.git
+# Install from PyPI
+pip install spektci
 
-# Or clone and install locally
-git clone https://github.com/OmarDakkak/spektCI.git
-cd spektCI
-pip install -e .
+# Or install from GitHub (latest main)
+pip install git+https://github.com/OmarDakkak/spektCI.git
 
 # Generate config
 spektci config init

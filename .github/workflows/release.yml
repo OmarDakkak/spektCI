@@ -29,6 +29,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@v1.12.4
         with:
           attestations: true
+          skip-existing: true
 
   docker:
     name: Build & Push Docker Image
