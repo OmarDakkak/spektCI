@@ -46,6 +46,18 @@ class GitHubCollector:
             )
         return self._client
 
+    def close(self) -> None:
+        """Close the underlying HTTP client and release resources."""
+        if self._client is not None:
+            self._client.close()
+            self._client = None
+
+    def __enter__(self) -> GitHubCollector:
+        return self
+
+    def __exit__(self, *args: object) -> None:
+        self.close()
+
     def collect(self, repo: str) -> RawPipelineData:
         """Collect workflow files and repository metadata.
 

@@ -1,0 +1,39 @@
+# Workflow with reusable workflow calls and privileged containers
+name: CI with Reusable Workflows
+on: push
+
+permissions:
+  contents: read
+
+jobs:
+  # Reusable workflow call (job-level uses:)
+  call-lint:
+    uses: org/shared-workflows/.github/workflows/lint.yml@v2
+
+  # Regular job with privileged container
+  integration:
+    runs-on: ubuntu-latest
+    container:
+      image: myorg/test-runner:1.2.0
+      options: --privileged --network=host
+    services:
+      db:
+        image: postgres:15
+        options: --privileged
+    steps:
+      - uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
+        name: Checkout
+      - name: Run tests
+        run: make test
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Job referencing CI expressions (should NOT flag as secrets)
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy
+        run: |
+          echo "Deploying with token ${{ secrets.DEPLOY_KEY }}"
+          echo "Using ${{ vars.API_URL }}"

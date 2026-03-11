@@ -33,6 +33,18 @@ from spektci.reporters import get_reporter
     default=None,
     help="Output format.",
 )
+@click.option(
+    "--controls",
+    "controls_filter",
+    default=None,
+    help="Run only listed controls (comma-separated IDs, e.g. C001,C004).",
+)
+@click.option(
+    "--skip-controls",
+    "skip_controls",
+    default=None,
+    help="Skip listed controls (comma-separated IDs, e.g. C003,C008).",
+)
 @click.pass_context
 def analyze(
     ctx: click.Context,
@@ -43,6 +55,8 @@ def analyze(
     threshold: int | None,
     output: str | None,
     output_format: str | None,
+    controls_filter: str | None,
+    skip_controls: str | None,
 ) -> None:
     """Run compliance analysis on a CI/CD project."""
     # Load config
@@ -75,6 +89,23 @@ def analyze(
 
     # Resolve controls
     controls = get_enabled_controls(config)
+
+    # Apply --controls / --skip-controls CLI filters
+    if controls_filter and skip_controls:
+        click.secho(
+            "Error: --controls and --skip-controls are mutually exclusive.",
+            fg="red",
+            err=True,
+        )
+        sys.exit(2)
+
+    if controls_filter:
+        include_ids = {c.strip().upper() for c in controls_filter.split(",")}
+        controls = [c for c in controls if c.control_id in include_ids]
+
+    if skip_controls:
+        exclude_ids = {c.strip().upper() for c in skip_controls.split(",")}
+        controls = [c for c in controls if c.control_id not in exclude_ids]
 
     # Run analysis
     engine = AnalysisEngine(adapter=adapter, controls=controls, config=config)

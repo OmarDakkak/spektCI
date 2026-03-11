@@ -28,6 +28,15 @@ BUILTIN_PATTERNS: list[str] = [
     r"(?i)https?://[^:]+:[^@]+@",
 ]
 
+# Regex to detect CI/CD expression syntax that should NOT be flagged as secrets.
+# Covers GitHub (${{ }}), GitLab ($CI_), Azure $(variables.), CircleCI (<< >>)
+_EXPRESSION_SYNTAX_RE = re.compile(
+    r"\$\{\{.*?\}\}"  # GitHub Actions: ${{ secrets.FOO }}
+    r"|\$CI_[A-Z_]+"  # GitLab CI predefined variables
+    r"|\$\(variables\."  # Azure Pipelines: $(variables.foo)
+    r"|<<\s*pipeline\."  # CircleCI: << pipeline.parameters.foo >>
+)
+
 
 class HardcodedSecretsControl(BaseControl):
     """C004: Detect hardcoded secrets, tokens, or passwords in pipeline definitions."""
@@ -60,6 +69,15 @@ class HardcodedSecretsControl(BaseControl):
                 continue
 
             for line_num, line in enumerate(content.splitlines(), start=1):
+                # Skip lines that only reference CI/CD expression variables
+                # (e.g. ${{ secrets.MY_KEY }}), not actual hardcoded values
+                if _EXPRESSION_SYNTAX_RE.search(line):
+                    # Strip all expression references; if nothing secret-like
+                    # remains, skip the line entirely.
+                    stripped = _EXPRESSION_SYNTAX_RE.sub("", line)
+                    if not any(p.search(stripped) for p in compiled):
+                        continue
+
                 for pattern in compiled:
                     match = pattern.search(line)
                     if match:

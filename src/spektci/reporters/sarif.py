@@ -27,16 +27,28 @@ class SarifReporter(BaseReporter):
         rules: list[dict[str, object]] = []
         results: list[dict[str, object]] = []
         rule_ids_seen: set[str] = set()
+        # Track the highest severity per rule for defaultConfiguration
+        rule_severities: dict[str, Severity] = {}
 
         for cr in result.control_results:
+            # Collect highest severity per control to set rule defaults later
+            for finding in cr.findings:
+                prev = rule_severities.get(cr.control_id)
+                if prev is None or finding.severity > prev:
+                    rule_severities[cr.control_id] = finding.severity
+
             # Add rule definition if not seen
             if cr.control_id not in rule_ids_seen:
+                default_level = SARIF_SEVERITY_MAP.get(
+                    rule_severities.get(cr.control_id, Severity.WARNING), "warning"
+                )
                 rules.append(
                     {
                         "id": cr.control_id,
                         "name": cr.control_name.replace(" ", ""),
                         "shortDescription": {"text": cr.control_name},
-                        "defaultConfiguration": {"level": "error"},
+                        "defaultConfiguration": {"level": default_level},
+                        "helpUri": f"https://github.com/OmarDakkak/spektCI#control-{cr.control_id.lower()}",
                     }
                 )
                 rule_ids_seen.add(cr.control_id)
@@ -86,7 +98,7 @@ class SarifReporter(BaseReporter):
                         "driver": {
                             "name": "spektci",
                             "version": __version__,
-                            "informationUri": "https://github.com/spektci/spektci",
+                            "informationUri": "https://github.com/OmarDakkak/spektCI",
                             "rules": rules,
                         }
                     },

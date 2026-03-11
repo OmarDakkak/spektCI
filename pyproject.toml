@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "spektci"
-version = "0.1.0"
+version = "0.2.0"
 description = "Multi-platform CI/CD compliance scanner for GitHub Actions, Jenkins, Bitbucket, Azure DevOps & CircleCI"
 readme = "README.md"
 license = { text = "MIT" }

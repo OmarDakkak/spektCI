@@ -74,6 +74,9 @@ class ActionReference:
     source_line: int = 0
     """Line number in the source file."""
 
+    metadata: dict[str, object] = field(default_factory=dict)
+    """Additional metadata (e.g. reusable_workflow flag)."""
+
 
 @dataclass
 class PipelineStage:

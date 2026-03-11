@@ -25,6 +25,10 @@ class GitHubAdapter(BasePlatformAdapter):
         self.collector = GitHubCollector(config)
         self.parser = GitHubParser()
 
+    def close(self) -> None:
+        """Release resources held by the collector."""
+        self.collector.close()
+
     def detect(self, remote_url: str) -> bool:
         """Return True if the remote URL points to GitHub."""
         return "github.com" in remote_url

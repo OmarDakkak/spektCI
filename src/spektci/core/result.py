@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import IntEnum
+from enum import IntEnum, StrEnum
 
 
 class Severity(IntEnum):
@@ -30,7 +30,7 @@ class Severity(IntEnum):
         return self.name.lower()
 
 
-class ControlStatus(str):
+class ControlStatus(StrEnum):
     """Status of a single control evaluation."""
 
     PASS = "pass"

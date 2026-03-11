@@ -1,0 +1,42 @@
+# Version control
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv
+venv
+env
+
+# IDE / editor
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Testing & CI
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.coverage
+htmlcov/
+.github/
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Docs / misc
+docs/
+*.md
+LICENSE
