@@ -5,6 +5,7 @@
 <h3 align="center">CI/CD compliance scanner for GitHub Actions, Jenkins, Bitbucket, Azure DevOps & CircleCI</h3>
 
 <p align="center">
+  <a href="https://github.com/OmarDakkak/spektCI/actions/workflows/ci.yml"><img src="https://github.com/OmarDakkak/spektCI/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.11+-3776AB?logo=python&logoColor=white" alt="Python 3.11+"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/adapters.md"><img src="https://img.shields.io/badge/platforms-5-brightgreen" alt="Platforms"></a>
