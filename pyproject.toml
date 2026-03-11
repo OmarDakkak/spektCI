@@ -47,10 +47,10 @@ dev = [
 spektci = "spektci.cli.main:cli"
 
 [project.urls]
-Homepage = "https://github.com/spektci/spektci"
-Repository = "https://github.com/spektci/spektci"
-Issues = "https://github.com/spektci/spektci/issues"
-Documentation = "https://github.com/spektci/spektci/tree/main/docs"
+Homepage = "https://github.com/OmarDakkak/spektCI"
+Repository = "https://github.com/OmarDakkak/spektCI"
+Issues = "https://github.com/OmarDakkak/spektCI/issues"
+Documentation = "https://github.com/OmarDakkak/spektCI/tree/main/docs"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/spektci"]
