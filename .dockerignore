@@ -38,5 +38,5 @@ Dockerfile
 
 # Docs / misc
 docs/
-*.md
 LICENSE
+!README.md
