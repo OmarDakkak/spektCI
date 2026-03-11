@@ -153,12 +153,12 @@ def pipeline_with_issues() -> PipelineModel:
         ),
         raw_content={
             ".github/workflows/deploy.yml": (
-                'name: Deploy\n'
-                'on: push\n'
-                'jobs:\n'
-                '  deploy:\n'
-                '    runs-on: ubuntu-latest\n'
-                '    env:\n'
+                "name: Deploy\n"
+                "on: push\n"
+                "jobs:\n"
+                "  deploy:\n"
+                "    runs-on: ubuntu-latest\n"
+                "    env:\n"
                 '      SECRET_KEY: "supersecretpassword123"\n'
                 '      API_TOKEN: "ghp_abcdefghijklmnopqrstuvwxyz1234567890"\n'
             ),

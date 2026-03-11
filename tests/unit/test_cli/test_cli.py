@@ -88,7 +88,9 @@ class TestCliConfig:
     def test_config_view(self) -> None:
         with self.runner.isolated_filesystem():
             self.runner.invoke(cli, ["config", "init"])
-            result = self.runner.invoke(cli, ["config", "view", "-c", ".spektci.yaml", "--no-color"])
+            result = self.runner.invoke(
+                cli, ["config", "view", "-c", ".spektci.yaml", "--no-color"]
+            )
             assert result.exit_code == 0
             assert "threshold" in result.output
 
@@ -112,9 +114,7 @@ class TestCliAnalyze:
 
     @patch("spektci.cli.analyze.get_adapter")
     @patch("spektci.cli.analyze.load_config")
-    def test_analyze_platform_error(
-        self, mock_load: MagicMock, mock_adapter: MagicMock
-    ) -> None:
+    def test_analyze_platform_error(self, mock_load: MagicMock, mock_adapter: MagicMock) -> None:
         from spektci.config.schema import SpektciConfig
 
         mock_load.return_value = SpektciConfig()

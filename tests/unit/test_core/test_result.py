@@ -71,7 +71,9 @@ class TestAnalysisResult:
             branch="main",
             control_results=[
                 ControlResult(
-                    "C001", "Test", ControlStatus.FAIL,
+                    "C001",
+                    "Test",
+                    ControlStatus.FAIL,
                     findings=[
                         Finding("C001", "Test", Severity.WARNING, "warning msg"),
                     ],

@@ -13,6 +13,7 @@ class TestConfigLoader:
 
     def test_loads_valid_config(self, tmp_path: object) -> None:
         from pathlib import Path
+
         config_path = Path(str(tmp_path)) / ".spektci.yaml"
         config_path.write_text(
             'version: "1"\n'
@@ -36,6 +37,7 @@ class TestConfigLoader:
 
     def test_raises_on_invalid_yaml(self, tmp_path: object) -> None:
         from pathlib import Path
+
         config_path = Path(str(tmp_path)) / ".spektci.yaml"
         config_path.write_text("{{invalid yaml")
         with pytest.raises(ConfigError, match="Invalid YAML"):
@@ -43,6 +45,7 @@ class TestConfigLoader:
 
     def test_default_values(self, tmp_path: object) -> None:
         from pathlib import Path
+
         config_path = Path(str(tmp_path)) / ".spektci.yaml"
         config_path.write_text('version: "1"\n')
         config = load_config(config_path)

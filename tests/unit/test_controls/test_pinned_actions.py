@@ -25,68 +25,78 @@ class TestPinnedActionsControl:
         self.config = SpektciConfig()
 
     def test_passes_with_tagged_actions(self) -> None:
-        pipeline = _make_pipeline([
-            ActionReference(
-                full_ref="actions/checkout@v4",
-                owner="actions",
-                name="checkout",
-                version="v4",
-            ),
-        ])
+        pipeline = _make_pipeline(
+            [
+                ActionReference(
+                    full_ref="actions/checkout@v4",
+                    owner="actions",
+                    name="checkout",
+                    version="v4",
+                ),
+            ]
+        )
         result = self.control.evaluate(pipeline, self.config)
         assert result.status == ControlStatus.PASS
 
     def test_fails_on_main_ref(self) -> None:
-        pipeline = _make_pipeline([
-            ActionReference(
-                full_ref="actions/checkout@main",
-                owner="actions",
-                name="checkout",
-                version="main",
-            ),
-        ])
+        pipeline = _make_pipeline(
+            [
+                ActionReference(
+                    full_ref="actions/checkout@main",
+                    owner="actions",
+                    name="checkout",
+                    version="main",
+                ),
+            ]
+        )
         result = self.control.evaluate(pipeline, self.config)
         assert result.status == ControlStatus.FAIL
         assert result.finding_count == 1
 
     def test_fails_on_latest_ref(self) -> None:
-        pipeline = _make_pipeline([
-            ActionReference(
-                full_ref="some/action@latest",
-                owner="some",
-                name="action",
-                version="latest",
-            ),
-        ])
+        pipeline = _make_pipeline(
+            [
+                ActionReference(
+                    full_ref="some/action@latest",
+                    owner="some",
+                    name="action",
+                    version="latest",
+                ),
+            ]
+        )
         result = self.control.evaluate(pipeline, self.config)
         assert result.status == ControlStatus.FAIL
 
     def test_sha_pinning_required(self) -> None:
         config = SpektciConfig()
         config.controls.pinned_actions.require_sha_pinning = True
-        pipeline = _make_pipeline([
-            ActionReference(
-                full_ref="actions/checkout@v4",
-                owner="actions",
-                name="checkout",
-                version="v4",
-                is_sha_pinned=False,
-            ),
-        ])
+        pipeline = _make_pipeline(
+            [
+                ActionReference(
+                    full_ref="actions/checkout@v4",
+                    owner="actions",
+                    name="checkout",
+                    version="v4",
+                    is_sha_pinned=False,
+                ),
+            ]
+        )
         result = self.control.evaluate(pipeline, config)
         assert result.status == ControlStatus.FAIL  # Not SHA-pinned
 
     def test_sha_pinned_passes(self) -> None:
         config = SpektciConfig()
         config.controls.pinned_actions.require_sha_pinning = True
-        pipeline = _make_pipeline([
-            ActionReference(
-                full_ref="actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675",
-                owner="actions",
-                name="checkout",
-                version="a81bbbf8298c0fa03ea29cdc473d45769f953675",
-                is_sha_pinned=True,
-            ),
-        ])
+        pipeline = _make_pipeline(
+            [
+                ActionReference(
+                    full_ref="actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675",
+                    owner="actions",
+                    name="checkout",
+                    version="a81bbbf8298c0fa03ea29cdc473d45769f953675",
+                    is_sha_pinned=True,
+                ),
+            ]
+        )
         result = self.control.evaluate(pipeline, config)
         assert result.status == ControlStatus.PASS

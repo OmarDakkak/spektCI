@@ -32,9 +32,7 @@ class TestHardcodedSecretsControl:
             platform=PlatformType.GITHUB,
             project="test/repo",
             branch="main",
-            raw_content={
-                "deploy.yml": 'env:\n  PASSWORD: "mysupersecretvalue123"\n'
-            },
+            raw_content={"deploy.yml": 'env:\n  PASSWORD: "mysupersecretvalue123"\n'},
         )
         result = self.control.evaluate(pipeline, self.config)
         assert result.status == ControlStatus.FAIL
@@ -45,9 +43,7 @@ class TestHardcodedSecretsControl:
             platform=PlatformType.GITHUB,
             project="test/repo",
             branch="main",
-            raw_content={
-                "deploy.yml": "TOKEN=ghp_abcdefghijklmnopqrstuvwxyz1234567890\n"
-            },
+            raw_content={"deploy.yml": "TOKEN=ghp_abcdefghijklmnopqrstuvwxyz1234567890\n"},
         )
         result = self.control.evaluate(pipeline, self.config)
         assert result.status == ControlStatus.FAIL
@@ -60,9 +56,7 @@ class TestHardcodedSecretsControl:
             platform=PlatformType.GITHUB,
             project="test/repo",
             branch="main",
-            raw_content={
-                "deploy.example.yml": 'env:\n  PASSWORD: "supersecretvalue123"\n'
-            },
+            raw_content={"deploy.example.yml": 'env:\n  PASSWORD: "supersecretvalue123"\n'},
         )
         result = self.control.evaluate(pipeline, config)
         assert result.status == ControlStatus.PASS

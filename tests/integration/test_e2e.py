@@ -37,8 +37,12 @@ class TestEndToEnd:
         adapter.collect.return_value = MagicMock()
         adapter.parse.return_value = pipeline
         adapter.get_branch_protection.return_value = BranchProtection(
-            branch="main", is_protected=True, require_pr_review=True,
-            min_approvals=1, require_status_checks=True, block_force_push=True,
+            branch="main",
+            is_protected=True,
+            require_pr_review=True,
+            min_approvals=1,
+            require_status_checks=True,
+            block_force_push=True,
         )
 
         controls = get_enabled_controls(config)  # type: ignore[arg-type]
