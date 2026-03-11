@@ -38,8 +38,13 @@
 ## 🚀 Quickstart
 
 ```bash
-# Install
-pip install spektci
+# Install from GitHub
+pip install git+https://github.com/OmarDakkak/spektCI.git
+
+# Or clone and install locally
+git clone https://github.com/OmarDakkak/spektCI.git
+cd spektCI
+pip install -e .
 
 # Generate config
 spektci config init
